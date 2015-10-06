@@ -1,0 +1,30 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="js/tesseract.js"></script>
+
+<script>
+//NOTE! Upload this entire directory to the root of your webserver to test, this will not work off the filesystem
+$( document ).ready(function() {
+    console.log( "ready!" );
+
+var img = new Image();
+
+//let's wait for the image to load first, it's a big one!
+$(img).one('load', function() {
+
+//using local based WorkerJS and local tessdata (from examples/server-based/tessdata/eng.traineddata.gz)
+Tesseract.init({workerJSPath: 'js/worker.js', tessdataPath: '/tessdata/'});
+Tesseract.recognize( img, {lang: 'eng'} ).then( function (result) {console.log(result)} );
+
+});
+img.src = "test.jpg";
+
+});
+  </script>
+  </head>
+  <body>
+  <img src="test.jpg" id="theImage">
+  </body>
+  </html>
+  
